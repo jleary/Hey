@@ -10,6 +10,7 @@ use Cwd qw/cwd/;
 # [        ]: Implement "alternate names" and verbs register functions in each PM
 # [        ]: Using the aforementioned register function, build a Config::Tiny file that does lookup
 # [        ]: Use proper "Hey::ApplicationName" formatted library functionality
+# [        ]: Move Lock Screen to Gnome (and use freedesktop for System (even though it doesn't seem to work with gnome)
 
 
 #Parse ARGV
@@ -41,7 +42,7 @@ if($verb =~ /^(launch|run|open)$/ && $application ne 'system'){
     exit 0;
 }else{
     #Crudely determine which pm to load
-    if(-e "./handlers/" . lc($application) . '.pm'){
+    if($application =~ /^[a-zA-Z1-9]$/ && -e "./handlers/" . lc($application) . '.pm'){
         require "./handlers/$application.pm";
         &dispatch($verb,@params);
     }else{

@@ -6,8 +6,7 @@ sub dispatch{
     my $verb   = $_[0];
     my @params = @_[1..$#_];
     my $phrase = join ' ', @_;
-    if($phrase =~ /^lock( the | )screen(s|)$/i){&lock_screen()}
-    elsif($phrase =~ /^(compose|open) (an |((a |)new |))email$/i){&compose_email()}
+    if($phrase =~ /^(compose|open) (an |((a |)new |))email$/i){&compose_email()}
     elsif($phrase =~ /^open url .*/){&open_url(@params)}
     elsif($phrase =~ /^get max(|imum) keyboard brightness$/){&get_kbd_max_brightness()}
     elsif($phrase =~ /^get keyboard brightness$/){&get_kbd_brightness()}
@@ -19,23 +18,16 @@ sub dispatch{
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        lock => 'hey system lock [the] screen[s]',
         open => "hey system open url http...\nhey system open a new email",
         compose => 'hey system compose a new email',
-        default => 'possible verbs: lock, open, and compose.'
+        get  => 'hey system get [max] keyboard brightness',
+        set  => 'hey system set keyboard brightness to VALUE',
+        default => 'possible verbs: open, get, set, lock, and compose.'
     );
     print "Usage: ";
     print ($explanations{$verb} or $explanations{'default'});
     print "\n";
     return 4;
-}
-
-sub lock_screen{
-    my $bus = Net::DBus->find;
-    my $srv = $bus->get_service("org.gnome.ScreenSaver");
-    my $obj = $srv->get_object("/org/gnome/ScreenSaver");
-    $obj->Lock;
-    return 0;
 }
 
 sub open_url{
