@@ -6,16 +6,17 @@ other scripting languages but AppleScript integrates really well with GUI applic
 expose functionality to scripts via libraries (called "Dictionaries" in AppleScript parlance) and these
 functions can be called upon relatively easily via external scripts.  
 
-In looking for something to satiate my scripting urge, I found out that DBus has much of the same functionality
-as AppleScript and AppleEvents.  I also found out that BeOS/HaikuOS has a program called 'hey' which allows for 
+While looking for something to satiate my scripting urge, I found out that DBus has much of the same functionality
+as AppleScript and AppleEvents.  I also found out that BeOS/HaikuOS has a program called `hey` which allows for 
 much of the same level of interprocess scripting as AppleScript (albeit used as a command and not as a whole
 language).  
 
-What resulted is my very limited implementation of `hey` using DBus calls.  
+What resulted is my very limited implementation of `hey` using DBus calls (and `.desktop` files).  
 
 Dependencies
 ------------
 + A modern version of perl
++ `File::DesktopEntry`
 + `Net::Dbus`
 + `Net::Dbus::Binding::Value`
 
