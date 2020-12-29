@@ -13,7 +13,7 @@ language).
 
 What resulted is my very limited implementation of `hey` using DBus calls.  
 
-Dependancies
+Dependencies
 ------------
 + A modern version of perl
 + `Net::Dbus`
