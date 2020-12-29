@@ -18,8 +18,12 @@ sub dispatch{
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        lock => 'hey system lock [the] screen[s]',
-        default => 'possible verbs: lock, get, set, increase, decrease.'
+        lock     => 'hey gnome lock [the] screen[s]',
+        get      => 'hey gnome get the screen[s] brightness',
+        set      => 'hey gnome set the screen[s] brightness to VALUE',
+        increase => 'hey gnome increase the screen[s] brightness',
+        decrease => 'hey gnome decrease the screen[s] brightness',
+        default  => 'possible verbs: lock, get, set, increase, decrease.'
     );
     print "Usage: ";
     print ($explanations{$verb} or $explanations{'default'});

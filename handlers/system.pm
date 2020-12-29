@@ -18,10 +18,10 @@ sub dispatch{
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        open => "hey system open url http...\nhey system open a new email",
+        open    => "hey system open url http...\nhey system open a new email",
         compose => 'hey system compose a new email',
-        get  => 'hey system get [max] keyboard brightness',
-        set  => 'hey system set keyboard brightness to VALUE',
+        get     => 'hey system get [max] keyboard brightness',
+        set     => 'hey system set keyboard brightness to VALUE',
         default => 'possible verbs: open, get, set, lock, and compose.'
     );
     print "Usage: ";

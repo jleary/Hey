@@ -10,7 +10,8 @@ use Cwd qw/cwd/;
 # [        ]: Implement "alternate names" and verbs register functions in each PM
 # [        ]: Using the aforementioned register function, build a Config::Tiny file that does lookup
 # [        ]: Use proper "Hey::ApplicationName" formatted library functionality
-# [        ]: Move Lock Screen to Gnome (and use freedesktop for System (even though it doesn't seem to work with gnome)
+# [Done    ]: Move Lock Screen to Gnome
+# [        ]: Have a more generalized way of dealing with bypassing the open command
 
 
 #Parse ARGV
@@ -28,22 +29,21 @@ if($ARGV[1] && $ARGV[1] =~ /^(to|do)$/i && $ARGV[2]) {
 }
 #Dispatch To Proper Handler
 $verb = lc $verb;
-if($verb =~ /^(launch|run|open)$/ && $application ne 'system'){
+if($verb =~ /^(launch|run|open)$/ && $application ne 'system' && join(' ',@params)!~ /^new( | .+ )window$/ ){
     #Handle the launching of .desktop files locally
     my $app = File::DesktopEntry->new($application);
     my $target = '';
-        print @params;
     if($verb eq 'open'){
         $target = $params[0];# or print 'Error: File name required' and exit 1;
     }else{
         $target = cwd;
     }
-    $app->exec($target) or print "Error: Application not launched.\n" and exit 1;
+    $app->exec($target) or print "Error: Application not launched. $!\n" and exit 1;
     exit 0;
 }else{
     #Crudely determine which pm to load
-    if($application =~ /^[a-zA-Z1-9]$/ && -e "./handlers/" . lc($application) . '.pm'){
-        require "./handlers/$application.pm";
+    if($application =~ /^[a-zA-Z1-9]+$/ && -e "./handlers/" . lc($application) . '.pm'){
+        require "./handlers/".lc($application).".pm";
         &dispatch($verb,@params);
     }else{
         print "Error: Application interface library not available\n" and exit 2;
