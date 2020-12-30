@@ -29,7 +29,7 @@ if($ARGV[1] && $ARGV[1] =~ /^(to|do)$/i && $ARGV[2]) {
 }
 #Dispatch To Proper Handler
 $verb = lc $verb;
-if($verb =~ /^(launch|run|open)$/ && $application ne 'system' && join(' ',@params)!~ /^new( | .+ )window$/ ){
+if($verb =~ /^(launch|run|open)$/ && $application ne 'system' && join(' ',@params)!~ /^new( | .+ )(window|tab)/ ){
     #Handle the launching of .desktop files locally
     my $app = File::DesktopEntry->new($application);
     my $target = '';
