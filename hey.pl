@@ -31,14 +31,19 @@ if($ARGV[1] && $ARGV[1] =~ /^(to|do)$/i && $ARGV[2]) {
 $verb = lc $verb;
 if($verb =~ /^(launch|run|open)$/ && $application ne 'system' && join(' ',@params)!~ /^new( | .+ )(window|tab)/ ){
     #Handle the launching of .desktop files locally
-    my $app = File::DesktopEntry->new($application);
     my $target = '';
     if($verb eq 'open'){
         $target = $params[0];# or print 'Error: File name required' and exit 1;
-    }else{
-        $target = cwd;
     }
-    $app->exec($target) or print "Error: Application not launched. $!\n" and exit 1;
+    
+   
+    if(`which gtk-launch`){
+        `gtk-launch $application $target`;
+    }else{
+        my $app = File::DesktopEntry->new($application);
+        $target = cwd if $verb eq 'open';
+        $app->exec($target) or print "Error: Application not launched. $!\n" and exit 1;
+    }
     exit 0;
 }else{
     #Crudely determine which pm to load
