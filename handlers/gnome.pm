@@ -18,16 +18,22 @@ sub dispatch{
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        lock     => 'hey gnome lock [the] screen[s]',
-        get      => 'hey gnome get the screen[s] brightness',
-        set      => 'hey gnome set the screen[s] brightness to VALUE',
-        increase => 'hey gnome increase the screen[s] brightness',
-        decrease => 'hey gnome decrease the screen[s] brightness',
-        default  => 'possible verbs: lock, get, set, increase, decrease.'
+        lock     => {order=> 1, text=>'hey gnome lock [the] screen[s]'},
+        get      => {order=> 2, text=>'hey gnome get the screen[s] brightness'},
+        set      => {order=> 3, text=>'hey gnome set the screen[s] brightness to VALUE'},
+        increase => {order=> 4, text=>'hey gnome increase the screen[s] brightness'},
+        decrease => {order=> 5, text=>'hey gnome decrease the screen[s] brightness'},
+        help     => {order=> 0, text=>'possible verbs: lock, get, set, increase, decrease.'}
     );
     print "Usage: ";
-    print ($explanations{$verb} or $explanations{'default'});
-    print "\n";
+    #print ($explanations{$verb} or $explanations{'default'});
+    if($verb ne 'help' && $explanations{$verb}){
+        print "$explanations{$verb}->{text}\n";
+    }else{
+        foreach(sort{$explanations{$a}->{order}<=>$explanations{$b}->{order} } keys %explanations){
+            print "$explanations{$_}->{text}\n";
+        }
+    }
     return 4;
 }
 

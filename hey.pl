@@ -3,6 +3,7 @@ use warnings;
 use strict;
 use File::DesktopEntry;
 use Cwd qw/cwd/;
+use FindBin qw/$RealBin/;
 
 #Todo:
 # [        ]: Implement .desktop launcher using X11::FreeDesktop::DesktopEntry
@@ -47,8 +48,8 @@ if($verb =~ /^(launch|run|open)$/ && $application ne 'system' && join(' ',@param
     exit 0;
 }else{
     #Crudely determine which pm to load
-    if($application =~ /^[a-zA-Z1-9]+$/ && -e "./handlers/" . lc($application) . '.pm'){
-        require "./handlers/".lc($application).".pm";
+    if($application =~ /^[a-zA-Z1-9]+$/ && -e "$RealBin/handlers/" . lc($application) . '.pm'){
+        require "$RealBin/handlers/".lc($application).".pm";
         &dispatch($verb,@params);
     }else{
         print "Error: Application interface library not available\n" and exit 2;
