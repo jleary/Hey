@@ -14,21 +14,27 @@ sub dispatch{
     else{&explain($verb)}
 }
 
-
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        open    => "hey system open url http...\nhey system open a new email",
-        compose => 'hey system compose a new email',
-        get     => 'hey system get [max] keyboard brightness',
-        set     => 'hey system set keyboard brightness to VALUE',
-        default => 'possible verbs: open, get, set, lock, and compose.'
+        open    => {order=> 1, text=>"hey system open url http...\nhey system open a new email"},
+        compose => {order=> 2, text=>'hey system compose a new email'},
+        get     => {order=> 3, text=>'hey system get [max] keyboard brightness'},
+        set     => {order=> 4, text=>'hey system set keyboard brightness to VALUE'},
+        help    => {order=> 0, text=>'possible verbs: open, get, set, lock, and compose.'}
     );
     print "Usage: ";
-    print ($explanations{$verb} or $explanations{'default'});
-    print "\n";
+    #print ($explanations{$verb} or $explanations{'default'});
+    if($verb ne 'help' && $explanations{$verb}){
+        print "$explanations{$verb}->{text}\n";
+    }else{
+        foreach(sort{$explanations{$a}->{order}<=>$explanations{$b}->{order} } keys %explanations){
+            print "$explanations{$_}->{text}\n";
+        }
+    }
     return 4;
 }
+
 
 sub open_url{
     my $bus = Net::DBus->find;
