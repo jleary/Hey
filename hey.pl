@@ -5,14 +5,7 @@ use File::DesktopEntry;
 use Cwd qw/cwd/;
 use FindBin qw/$RealBin/;
 
-#Todo:
-# [        ]: Implement .desktop launcher using X11::FreeDesktop::DesktopEntry
-# [        ]: Use display names instead of desktop file names
-# [        ]: Implement "alternate names" and verbs register functions in each PM
-# [        ]: Using the aforementioned register function, build a Config::Tiny file that does lookup
-# [        ]: Use proper "Hey::ApplicationName" formatted library functionality
-# [Done    ]: Move Lock Screen to Gnome
-# [        ]: Have a more generalized way of dealing with bypassing the open command
+
 
 
 #Parse ARGV

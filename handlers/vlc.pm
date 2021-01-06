@@ -21,18 +21,24 @@ sub dispatch{
 sub explain{
     my $verb = $_[0];
     my %explanations = (
-        play     => 'hey vlc play [pause/url]',
-        pause    => 'hey vlc pause',
-        stop     => 'hey vlc stop',
-        previous => 'hey vlc previous',
-        next     => 'hey vlc next',
-        next     => 'hey vlc raise',
-        next     => 'hey vlc quit',
-        default  => 'possible verbs: play, pause, stop, previous, next, raise, quit.',
+        play     => {order=> 1, text=>'hey vlc play [pause/url]'},
+        pause    => {order=> 2, text=>'hey vlc pause'},
+        stop     => {order=> 3, text=>'hey vlc stop'},
+        previous => {order=> 4, text=>'hey vlc previous'},
+        next     => {order=> 5, text=>'hey vlc next'},
+        next     => {order=> 6, text=>'hey vlc raise'},
+        next     => {order=> 7, text=>'hey vlc quit'},
+        help     => {order=> 0, text=>'possible verbs: play, pause, stop, previous, next, raise, quit.'},
     );
     print "Usage: ";
-    print ($explanations{$verb} or $explanations{'default'});
-    print "\n";
+    #print ($explanations{$verb} or $explanations{'default'});
+    if($verb ne 'help' && $explanations{$verb}){
+        print "$explanations{$verb}->{text}\n";
+    }else{
+        foreach(sort{$explanations{$a}->{order}<=>$explanations{$b}->{order} } keys %explanations){
+            print "$explanations{$_}->{text}\n";
+        }
+    }
     return 4;
 }
 
